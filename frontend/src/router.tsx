@@ -6,6 +6,7 @@ import { ListPage } from './pages/ListPage/ListPage';
 import { DetailPage } from './pages/DetailPage/DetailPage';
 import { useAuth } from './auth/AuthContext';
 
+// eslint-disable-next-line react-refresh/only-export-components
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { token } = useAuth();
   return token ? <>{children}</> : <Navigate to="/login" replace />;
