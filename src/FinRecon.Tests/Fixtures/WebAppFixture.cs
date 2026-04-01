@@ -30,6 +30,7 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
         Environment.SetEnvironmentVariable("Jwt__Issuer", "finrecon-test");
         Environment.SetEnvironmentVariable("Jwt__Audience", "finrecon-test");
         await _postgres.StartAsync();
+        Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", _postgres.GetConnectionString());
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -69,6 +70,7 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
         Environment.SetEnvironmentVariable("Jwt__Secret", null);
         Environment.SetEnvironmentVariable("Jwt__Issuer", null);
         Environment.SetEnvironmentVariable("Jwt__Audience", null);
+        Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", null);
         await base.DisposeAsync();
         await _postgres.DisposeAsync();
     }
