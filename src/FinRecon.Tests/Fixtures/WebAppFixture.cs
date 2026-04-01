@@ -24,6 +24,11 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        // Set env vars before the server starts — WebApplication.CreateBuilder() reads these
+        // before Program.cs inline code runs, so ConfigureWebHost.ConfigureAppConfiguration is too late.
+        Environment.SetEnvironmentVariable("Jwt__Secret", "finrecon-test-secret-key-32-chars!!");
+        Environment.SetEnvironmentVariable("Jwt__Issuer", "finrecon-test");
+        Environment.SetEnvironmentVariable("Jwt__Audience", "finrecon-test");
         await _postgres.StartAsync();
     }
 
@@ -61,6 +66,9 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
 
     public new async Task DisposeAsync()
     {
+        Environment.SetEnvironmentVariable("Jwt__Secret", null);
+        Environment.SetEnvironmentVariable("Jwt__Issuer", null);
+        Environment.SetEnvironmentVariable("Jwt__Audience", null);
         await base.DisposeAsync();
         await _postgres.DisposeAsync();
     }
