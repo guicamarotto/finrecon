@@ -1,0 +1,75 @@
+global:
+  imageRegistry: ghcr.io
+  imageOwner: guicamarotto
+
+api:
+  image:
+    repository: ghcr.io/guicamarotto/finrecon-api
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 2
+  port: 8080
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+
+worker:
+  image:
+    repository: ghcr.io/guicamarotto/finrecon-worker
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+frontend:
+  image:
+    repository: ghcr.io/guicamarotto/finrecon-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicas: 2
+  port: 80
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  host: finrecon.example.com
+  tls:
+    enabled: false
+    secretName: finrecon-tls
+
+hpa:
+  api:
+    minReplicas: 2
+    maxReplicas: 10
+    cpuUtilization: 70
+
+# Secrets are injected via Sealed Secrets or external-secrets-operator
+# These values are placeholders — never store real secrets here
+secrets:
+  dbConnectionString: ""
+  rabbitMQHost: ""
+  rabbitMQUsername: ""
+  rabbitMQPassword: ""
+  minioEndpoint: ""
+  minioAccessKey: ""
+  minioSecretKey: ""
+  jwtSecret: ""

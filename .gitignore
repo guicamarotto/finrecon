@@ -1,0 +1,112 @@
+# ===== .NET / Visual Studio =====
+## Build outputs
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## User-specific files
+*.rsuser
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Visual Studio / Rider
+.vs/
+.idea/
+*.DotSettings.user
+
+## NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+packages/
+!**/[Pp]ackages/build/
+
+## Test results
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+coverage*/
+BenchmarkDotNet.Artifacts/
+temp/
+
+## Publish
+publish/
+**/Properties/PublishProfiles/*.pubxml
+
+## Entity Framework migrations (keep the files, not the snapshots from tools)
+## Intentionally NOT ignoring Migrations/ — we commit them
+
+# ===== Node / Frontend =====
+node_modules/
+dist/
+.next/
+out/
+build/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.vite/
+
+## Env files
+.env
+.env.*
+!.env.example
+
+## npm / yarn / pnpm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# ===== Docker =====
+docker-compose.override.yml
+
+# ===== Terraform =====
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform.lock.hcl
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# ===== OS =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ===== Secrets =====
+*.pem
+*.key
+*.cert
+*.pfx
+*.p12
+secrets.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finrecon-worker
+  labels:
+    {{- include "finrecon.labels" . | nindent 4 }}
+    app: finrecon-worker
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: finrecon-worker
+  template:
+    metadata:
+      labels:
+        app: finrecon-worker
+      annotations:
+        # Worker uses IRSA for S3 access — annotation binds pod to the IAM role
+        eks.amazonaws.com/role-arn: {{ .Values.worker.irsaRoleArn | default "" | quote }}
+    spec:
+      containers:
+        - name: worker
+          image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
+          imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: finrecon-secrets
+          resources:
+            {{- toYaml .Values.worker.resources | nindent 12 }}

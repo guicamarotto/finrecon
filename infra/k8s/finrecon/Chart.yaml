@@ -1,0 +1,6 @@
+apiVersion: v2
+name: finrecon
+description: Financial Reconciliation Dashboard — API, Worker, and Frontend
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

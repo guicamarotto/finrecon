@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finrecon-frontend
+  labels:
+    {{- include "finrecon.labels" . | nindent 4 }}
+    app: finrecon-frontend
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app: finrecon-frontend
+  template:
+    metadata:
+      labels:
+        app: finrecon-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.frontend.port }}
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finrecon-frontend
+  labels:
+    {{- include "finrecon.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: finrecon-frontend
+  ports:
+    - port: 80
+      targetPort: {{ .Values.frontend.port }}

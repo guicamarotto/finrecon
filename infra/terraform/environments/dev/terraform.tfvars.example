@@ -1,0 +1,13 @@
+environment            = "dev"
+aws_region             = "us-east-1"
+eks_node_instance_type = "t3.medium"
+eks_node_desired       = 2
+eks_node_min           = 2
+eks_node_max           = 4
+rds_instance_class     = "db.t3.micro"
+rds_multi_az           = false
+mq_instance_type       = "mq.t3.micro"
+
+# Injected from CI/CD secrets — never commit actual values
+# db_password       = "..."
+# rabbitmq_password = "..."

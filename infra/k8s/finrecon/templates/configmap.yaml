@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: finrecon-config
+  labels:
+    {{- include "finrecon.labels" . | nindent 4 }}
+data:
+  ASPNETCORE_ENVIRONMENT: {{ .Values.api.env.ASPNETCORE_ENVIRONMENT | quote }}
+  Jwt__Issuer: "finrecon-api"
+  Jwt__Audience: "finrecon-frontend"

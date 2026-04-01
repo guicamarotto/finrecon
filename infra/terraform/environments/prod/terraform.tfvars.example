@@ -1,0 +1,13 @@
+environment            = "prod"
+aws_region             = "us-east-1"
+eks_node_instance_type = "t3.large"
+eks_node_desired       = 3
+eks_node_min           = 2
+eks_node_max           = 10
+rds_instance_class     = "db.t3.small"
+rds_multi_az           = true
+mq_instance_type       = "mq.m5.large"
+
+# Injected from CI/CD secrets — never commit actual values
+# db_password       = "..."
+# rabbitmq_password = "..."
