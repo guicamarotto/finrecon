@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
 
@@ -29,6 +30,16 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
+
+        builder.ConfigureAppConfiguration(config =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Jwt:Secret"] = "finrecon-test-secret-key-32-chars!!",
+                ["Jwt:Issuer"] = "finrecon-test",
+                ["Jwt:Audience"] = "finrecon-test",
+            });
+        });
 
         builder.ConfigureServices(services =>
         {
