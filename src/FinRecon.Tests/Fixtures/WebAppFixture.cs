@@ -31,6 +31,11 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
         Environment.SetEnvironmentVariable("Jwt__Audience", "finrecon-test");
         await _postgres.StartAsync();
         Environment.SetEnvironmentVariable("ConnectionStrings__DefaultConnection", _postgres.GetConnectionString());
+
+        // Trigger server creation and apply EF migrations to the test database
+        using var scope = Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<FinReconDbContext>();
+        await db.Database.MigrateAsync();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
