@@ -125,7 +125,7 @@ public class ReconciliationEngineTests
         };
         var previous = new[]
         {
-            TestDataBuilder.CreateRecord("C001", ProductType.Equity, 1000m),
+            TestDataBuilder.CreateRecord(clientId: "C001", productType: ProductType.Equity, currentValue: 1000m),
             // C001/Crypto is absent in previous → New
         };
 
@@ -149,9 +149,9 @@ public class ReconciliationEngineTests
         };
         var previous = new[]
         {
-            TestDataBuilder.CreateRecord("C001", ProductType.Equity, 1000m),
-            TestDataBuilder.CreateRecord("C002", ProductType.Fund, 500m),
-            TestDataBuilder.CreateRecord("C004", ProductType.Bond, 100m), // missing
+            TestDataBuilder.CreateRecord(clientId: "C001", productType: ProductType.Equity, currentValue: 1000m),
+            TestDataBuilder.CreateRecord(clientId: "C002", productType: ProductType.Fund, currentValue: 500m),
+            TestDataBuilder.CreateRecord(clientId: "C004", productType: ProductType.Bond, currentValue: 100m), // missing
         };
 
         var result = await _engine.RunAsync(_jobId, incoming, previous);
@@ -175,8 +175,8 @@ public class ReconciliationEngineTests
         };
         var previous = new[]
         {
-            TestDataBuilder.CreateRecord("C001", ProductType.Equity, 1000m),
-            TestDataBuilder.CreateRecord("C002", ProductType.Fund, 500m),
+            TestDataBuilder.CreateRecord(clientId: "C001", productType: ProductType.Equity, currentValue: 1000m),
+            TestDataBuilder.CreateRecord(clientId: "C002", productType: ProductType.Fund, currentValue: 500m),
         };
 
         var result = await _engine.RunAsync(_jobId, incoming, previous);
