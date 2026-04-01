@@ -1,3 +1,4 @@
+using FinRecon.Core.Interfaces;
 using FinRecon.Infrastructure.Persistence;
 using MassTransit;
 using Microsoft.AspNetCore.Hosting;
@@ -67,7 +68,22 @@ public class WebAppFixture : WebApplicationFactory<Program>, IAsyncLifetime
             foreach (var d in massTransitDescriptors) services.Remove(d);
 
             services.AddMassTransitTestHarness();
+
+            // Replace MinIO with a no-op stub — MinioFileStorageService throws on construction
+            // when Endpoint is null (ServiceURL = "http://"), causing UriFormatException in AmazonS3Client
+            var storageDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IFileStorageService));
+            if (storageDescriptor != null) services.Remove(storageDescriptor);
+            services.AddScoped<IFileStorageService, NullFileStorageService>();
         });
+    }
+
+    private sealed class NullFileStorageService : IFileStorageService
+    {
+        public Task<string> UploadAsync(string filename, Stream content, string contentType, CancellationToken ct = default)
+            => Task.FromResult($"test/{Guid.NewGuid()}/{filename}");
+
+        public Task<Stream> DownloadAsync(string objectKey, CancellationToken ct = default)
+            => Task.FromResult<Stream>(Stream.Null);
     }
 
     public new async Task DisposeAsync()
